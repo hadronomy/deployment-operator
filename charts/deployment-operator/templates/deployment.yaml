@@ -90,7 +90,8 @@ spec:
           {{ end }}
           imagePullPolicy: {{ .Values.agentk.image.pullPolicy }}
           terminationMessagePolicy: {{ .Values.agentk.terminationMessagePolicy }}
-          {{ $kasAddress := replace "gql" "kas" (default "" .Values.consoleUrl) | replace "https" "wss" }}
+          {{ $defaultKasAddress := replace "gql" "kas" (default "" .Values.consoleUrl) | replace "https" "wss" }}
+          {{ $kasAddress := default $defaultKasAddress .Values.agentk.config.kasAddress }}
           args:
             - --token-file=/etc/agentk/secrets/token
             - --kas-address={{ $kasAddress }}
